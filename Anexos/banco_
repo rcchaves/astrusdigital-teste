@@ -1,0 +1,249 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 22-06-2023 a las 07:37:21
+-- Versión del servidor: 8.0.31
+-- Versión de PHP: 8.0.26
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `astrusdigital`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+DROP TABLE IF EXISTS `categorias`;
+CREATE TABLE IF NOT EXISTS `categorias` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nome` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `nome`, `icone`, `created_at`, `updated_at`) VALUES
+(1, 'Bebidas', 'bebidas', '2023-06-19 19:46:35', '2023-06-19 19:46:35'),
+(2, 'Hamburguer', 'hamburguer', '2023-06-19 19:46:35', '2023-06-19 19:46:35'),
+(3, 'Pizzas', 'pizza', '2023-06-19 19:46:35', '2023-06-19 19:46:35'),
+(4, 'Calzones', 'calzones', '2023-06-19 19:46:35', '2023-06-19 19:46:35'),
+(5, 'Doces', 'doces', '2023-06-19 19:46:35', '2023-06-19 19:46:35'),
+(6, 'Vinhos', 'vinhos', '2023-06-19 19:46:35', '2023-06-19 19:46:35');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `failed_jobs`
+--
+
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedidos`
+--
+
+DROP TABLE IF EXISTS `pedidos`;
+CREATE TABLE IF NOT EXISTS `pedidos` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `total` double NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pedidos_user_id_foreign` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedido_produtos`
+--
+
+DROP TABLE IF EXISTS `pedido_produtos`;
+CREATE TABLE IF NOT EXISTS `pedido_produtos` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pedido_id` bigint UNSIGNED NOT NULL,
+  `produto_id` bigint UNSIGNED NOT NULL,
+  `quantidade` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pedido_produtos_pedido_id_foreign` (`pedido_id`),
+  KEY `pedido_produtos_produto_id_foreign` (`produto_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personal_access_tokens`
+--
+
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(41, 'App\\Models\\User', 6, 'token', '06a63247f96d5411bd97cdb69f97c344a98d2ddbf27d16c4b5789c57a34fe7d0', '[\"*\"]', '2023-06-22 10:36:09', NULL, '2023-06-22 10:20:29', '2023-06-22 10:36:09'),
+(39, 'App\\Models\\User', 6, 'token', 'c355766fa6b41d6e9d9e3d77c52d55f41d55763953b34eb11390aa087cec58d6', '[\"*\"]', '2023-06-22 10:36:46', NULL, '2023-06-22 10:14:48', '2023-06-22 10:36:46'),
+(36, 'App\\Models\\User', 5, 'token', '48e174c335190d693452531de7d539d2dca03a13d0e7382f74b033aeece36aaf', '[\"*\"]', '2023-06-22 07:35:55', NULL, '2023-06-22 07:13:55', '2023-06-22 07:35:55'),
+(35, 'App\\Models\\User', 4, 'token', '21170c8a2d20a75f173626c3a82649386e01e84f19080e3100bfcc8110b0b5b7', '[\"*\"]', '2023-06-22 07:45:11', NULL, '2023-06-22 06:56:32', '2023-06-22 07:45:11'),
+(34, 'App\\Models\\User', 4, 'token', '2b42928978108860b47eec7457fc0b034c0e17bc6abcbb93eb60fad8bc632d8b', '[\"*\"]', '2023-06-22 06:56:33', NULL, '2023-06-22 06:56:30', '2023-06-22 06:56:33'),
+(32, 'App\\Models\\User', 3, 'token', '9665d93a910b9abd5829d94078396903bec2418ffd5ef741a47d3aecbca5c355', '[\"*\"]', '2023-06-22 06:45:00', NULL, '2023-06-22 06:44:39', '2023-06-22 06:45:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `produtos`
+--
+
+DROP TABLE IF EXISTS `produtos`;
+CREATE TABLE IF NOT EXISTS `produtos` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nome` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `preco` double NOT NULL,
+  `imagen` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `disponivel` tinyint(1) NOT NULL DEFAULT '1',
+  `categoria_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `produtos_categoria_id_foreign` (`categoria_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `produtos`
+--
+
+INSERT INTO `produtos` (`id`, `nome`, `preco`, `imagen`, `disponivel`, `categoria_id`, `created_at`, `updated_at`) VALUES
+(46, 'Vinho Argentino Seco', 65, '1687407874_vinho03.jpg', 1, 6, '2023-06-22 07:24:34', '2023-06-22 07:24:34'),
+(37, 'Pizza 4 Queijos Grande', 65.5, '1687407152_pizzas_03.jpg', 1, 3, '2023-06-22 07:12:32', '2023-06-22 07:14:29'),
+(38, 'Pizza de Bacon', 45.5, '1687407373_pizzas_10.jpg', 1, 3, '2023-06-22 07:16:13', '2023-06-22 07:16:13'),
+(39, 'Pizza de Camarão', 70.41, '1687407468_pizzas_11.jpg', 1, 3, '2023-06-22 07:17:48', '2023-06-22 07:19:03'),
+(40, 'Água Pequena 400ml', 3, '1687407497_agua.jpg', 1, 1, '2023-06-22 07:18:17', '2023-06-22 07:36:29'),
+(41, 'Café com Creme', 12.42, '1687407593_bebidas_16.jpg', 1, 1, '2023-06-22 07:19:53', '2023-06-22 07:19:53'),
+(42, 'Cerveja Heineken', 4.5, '1687407626_bebeida.jpg', 1, 1, '2023-06-22 07:20:26', '2023-06-22 07:20:26'),
+(43, 'Refri Coca Cola Lata', 2.7, '1687407717_bebida.jpg', 1, 1, '2023-06-22 07:21:57', '2023-06-22 07:21:57'),
+(44, 'Sundae de Chocolate', 21, '1687407761_bebidas_17.jpg', 1, 1, '2023-06-22 07:22:41', '2023-06-22 07:35:49'),
+(45, 'Calzone de Frango', 35.25, '1687407844_capa-4.jpg', 1, 4, '2023-06-22 07:24:05', '2023-06-22 07:24:05'),
+(47, 'Vinho Suave', 45, '1687407898_viinhio02.jpg', 1, 6, '2023-06-22 07:24:58', '2023-06-22 07:24:58'),
+(48, 'Vinho importado', 300, '1687407942_vinho01.jpg', 1, 6, '2023-06-22 07:25:42', '2023-06-22 07:25:42'),
+(49, 'Donuts de Chocolate', 10, '1687408015_doces_13.jpg', 1, 5, '2023-06-22 07:26:55', '2023-06-22 07:26:55'),
+(50, 'Donuts de Morango', 9.25, '1687408038_doces_11.jpg', 0, 5, '2023-06-22 07:27:18', '2023-06-22 07:27:53'),
+(51, 'Donuts de brigadeiro', 12, '1687408060_doces_08.jpg', 1, 5, '2023-06-22 07:27:40', '2023-06-22 07:27:40'),
+(52, 'THE KING BURGER', 35.2, '1687408277_burg2.jpg', 1, 2, '2023-06-22 07:31:17', '2023-06-22 07:31:17'),
+(53, 'ENGLISH BURGER', 45.23, '1687408309_burgue5.jpg', 1, 2, '2023-06-22 07:31:49', '2023-06-22 07:31:49'),
+(54, 'CHEDDAR BURGER', 38.9, '1687408391_burge.jpg', 1, 2, '2023-06-22 07:33:11', '2023-06-22 07:33:11'),
+(55, 'BARBECUE BURGER', 33.9, '1687408429_burgue3.jpg', 1, 2, '2023-06-22 07:33:49', '2023-06-22 07:33:49'),
+(56, 'Café Express', 5, '1687418467_bebidas_11.jpg', 1, 1, '2023-06-22 07:34:57', '2023-06-22 10:21:07');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `admin`) VALUES
+(7, 'Cliente', 'cliente@teste.com', NULL, '$2y$10$2Jx/sIeNo/X7Wb87oZI54.jqnBmi9CBClLhErTSZ6xzvHbbiyHXCO', NULL, '2023-06-22 10:14:04', '2023-06-22 10:14:04', 0),
+(6, 'Admin', 'admin@teste.com', NULL, '$2y$10$JlzyESvM26OFLeNi2xuFN.zMvgI2STdPMDTaMck.mCrBnkhzoj.ve', NULL, '2023-06-22 10:09:30', '2023-06-22 10:09:30', 1);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
